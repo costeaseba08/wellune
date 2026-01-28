@@ -35,9 +35,14 @@
 
         .logo { font-family: 'Tenor Sans', sans-serif; font-size: 24px; letter-spacing: 7px; text-transform: uppercase; }
 
-        /* Hero */
+        /* Hero & Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         header {
-            height: 50vh;
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -46,43 +51,65 @@
             padding-top: 100px;
         }
 
-        header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 300; line-height: 1.1; }
+        header p { 
+            font-size: 11px; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; color: #999;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        header h1 { 
+            font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 300; line-height: 1.1;
+            animation: fadeInUp 1.2s ease 0.3s forwards; opacity: 0;
+        }
         header h1 i { font-style: italic; color: var(--sage); }
-        header p { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; margin-top: 20px; color: #999; }
 
         /* Catalog Grid */
-        .shop-container { padding: 50px 5% 50px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+        .shop-container { padding: 50px 5% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         
         .product-card {
             background: var(--white);
             padding: 30px;
             display: flex;
             flex-direction: column;
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
             border: 1px solid transparent;
             position: relative;
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                        opacity 0.8s ease, 
+                        border-color 0.4s ease, 
+                        box-shadow 0.4s ease;
         }
-        .product-card:hover:not(.coming-soon) { transform: translateY(-10px); border-color: var(--sage); box-shadow: 0 30px 60px rgba(0,0,0,0.02); }
+
+        .product-card.visible { opacity: 1; transform: translateY(0); }
+
+        .product-card:hover:not(.coming-soon) { 
+            border-color: var(--sage); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03); 
+        }
+
+        .image-container { width: 100%; height: 320px; overflow: hidden; margin-bottom: 25px; }
 
         .product-image {
             width: 100%;
-            height: 320px;
+            height: 100%;
             object-fit: contain;
-            margin-bottom: 25px;
             mix-blend-mode: multiply;
+            transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
+
+        .product-card:hover .product-image { transform: scale(1.05); }
 
         /* Coming Soon Styling */
         .product-card.coming-soon { cursor: default; }
-        .product-card.coming-soon .product-image { opacity: 0.4; filter: grayscale(1); }
+        .product-card.coming-soon .product-image { opacity: 0.3; filter: grayscale(1); }
         .coming-soon-badge {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(255,255,255,0.9);
-            padding: 10px 20px;
+            padding: 12px 24px;
             font-size: 10px;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -93,7 +120,7 @@
         .type-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 15px; }
         .product-name { font-family: 'Tenor Sans', sans-serif; font-size: 22px; margin-bottom: 15px; }
         
-        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #f0f0f0; padding-top: 20px;}
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #f9f9f9; padding-top: 20px;}
         .price { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #777; }
         
         .btn-details {
@@ -106,12 +133,12 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.4s;
         }
         .btn-details:hover { background: var(--sage); }
         .btn-disabled { background: #eee; color: #aaa; cursor: default; }
 
-        /* Contact Section */
+        /* Footer */
         footer {
             padding: 100px 5%;
             background: var(--white);
@@ -124,7 +151,7 @@
         .contact-item:hover { color: var(--sage); }
         .contact-item b { font-family: 'Tenor Sans'; font-weight: 400; text-transform: uppercase; margin-right: 10px; color: #999; font-size: 11px; }
 
-        /* Modal Detalii */
+        /* Modal */
         .modal {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -134,21 +161,40 @@
             justify-content: center;
             align-items: center;
             padding: 5%;
+            transition: opacity 0.4s ease;
         }
         .modal.active { display: flex; }
-        .modal-content {
-            max-width: 900px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
+        
+        @keyframes modalScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .modal-close { position: absolute; top: 40px; right: 40px; cursor: pointer; letter-spacing: 2px; font-size: 12px; border-bottom: 1px solid var(--text); }
+        
+        .modal-content {
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: flex-start;
+            animation: modalScale 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .modal-close { position: absolute; top: 40px; right: 40px; cursor: pointer; letter-spacing: 2px; font-size: 12px; border-bottom: 1px solid var(--text); padding-bottom: 5px; }
+
+        .desc-text { line-height: 1.8; color: #555; font-size: 14px; margin-bottom: 20px; }
+        .desc-section { margin-bottom: 25px; }
+        .desc-section h4 { font-family: 'Tenor Sans'; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; color: var(--gold); }
+        .desc-section ul { list-style: none; }
+        .desc-section ul li { font-size: 13px; margin-bottom: 5px; position: relative; padding-left: 15px; }
+        .desc-section ul li::before { content: "—"; position: absolute; left: 0; color: var(--sage); }
 
         @media (max-width: 768px) {
             .shop-container { grid-template-columns: 1fr; }
-            .modal-content { grid-template-columns: 1fr; text-align: center; }
-            .modal-content img { height: 250px; }
+            .modal-content { grid-template-columns: 1fr; text-align: left; }
+            .modal-content img { height: 250px; margin: 0 auto; display: block; }
+            header h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
@@ -182,27 +228,108 @@
 
 <script>
     const products = [
-        { id: 1, name: "B-x", price: 350, type: "Weight Sculpting", img: "https://sere-nova.de/cdn/shop/files/16C98EAF-9A9A-4CF6-B200-E289BA9E8FC3.png?v=1754835290&width=533", desc: "O formulă termogenică avansată creată pentru a transforma metabolismul. Reglează cortizolul și controlează pofta de dulce, oferind energie constantă pe parcursul întregii zile.", status: "available" },
-        { id: 2, name: "G-night", price: 220, type: "Circadian Recovery", img: "https://sere-nova.de/cdn/shop/files/A6F34D05-884C-4B69-B00C-6304D2783DF1.png?v=1752199040&width=533", desc: "Arta odihnei profunde. O sinergie botanică ce induce o stare de calm absolut, permițând corpului să se regenereze complet pe durata somnului.", status: "available" },
-        { id: 3, name: "G-day", price: 220, type: "Neural Drive", img: "https://sere-nova.de/cdn/shop/files/BADA8CAD-95CC-4DA8-A51F-FE6FF1735108.png?v=1752201121&width=533", desc: "Energizează-ți mintea natural. Alimentează capacitatea de concentrare și memoria, oferind un scut împotriva stresului emoțional zilnic.", status: "available" },
-        { id: 4, name: "B-yng Collagen", price: 350, type: "Cellular Beauty", img: "https://sere-nova.de/cdn/shop/files/4D173CF3-E53D-47B4-A5B9-E7436ACF1461.png?v=1752201323&width=533", desc: "Mai mult decât un supliment, este ritualul tău de strălucire. Reface elasticitatea pielii și întărește structura firului de păr.", status: "available" },
-        { id: 5, name: "x-Grn", price: 280, type: "Detox & Cleanse", img: "https://sere-nova.de/cdn/shop/files/97511FCF-4865-42CA-859C-B9B544D8FC9E.png?v=1752346089&width=533", desc: "Concentrat de super-alimente verzi pentru o detoxifiere profundă.", status: "coming-soon" },
-        { id: 6, name: "e-M", price: 310, type: "Male Vitality", img: "https://sere-nova.de/cdn/shop/files/2FE46787-CC9D-44BD-B368-44ECCDE0AFD0.png?v=1752705340&width=533", desc: "Susținere vitală pentru performanță masculină.", status: "available" },
-        { id: 7, name: "e-W", price: 310, type: "Hormonal Balance", img: "https://sere-nova.de/cdn/shop/files/2463C1A8-A1E8-42D5-8BAE-7560C30813C0.png?v=1752705261&width=533", desc: "Creat special pentru biomecanica feminină.", status: "available" },
-        { id: 8, name: "e-X Energizer", price: 350, type: "Cognitive Energy", img: "https://sere-nova.de/cdn/shop/files/488FA16B-9C62-4E48-8D7F-269E7B5E3383.png?v=1752705098&width=533", desc: "Focus laser și claritate mentală de neegalat.", status: "available" },
-        { id: 9, name: "Noni-x", price: 290, type: "Immune Support", img: "https://sere-nova.de/cdn/shop/files/7037506E-CABC-442D-A714-E0FADEDC7231.png?v=1752201491&width=533", desc: "Puterea antioxidantă a fructului Noni.", status: "coming-soon" },
-        { id: 10, name: "Fusion-x Ciocolată", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/030EF3B7-57AC-47AF-8846-438C66D7958E.png?v=1752352746", desc: "Nutriție completă cu gust de ciocolată.", status: "coming-soon" },
-        { id: 11, name: "Fusion-x Vanilie", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/ACDF9736-9CB0-4505-9100-8852B45ACFD8.png?v=1752353088&width=533", desc: "Eleganța vaniliei întâlnește nutriția.", status: "coming-soon" }
+        { 
+            id: 1, 
+            name: "B-x", 
+            price: 350, 
+            type: "Weight Sculpting", 
+            img: "https://sere-nova.de/cdn/shop/files/16C98EAF-9A9A-4CF6-B200-E289BA9E8FC3.png?v=1754835290&width=533", 
+            intro: "O formulă termogenică naturală, creată special pentru a-ți susține parcursul spre greutatea dorită.",
+            ingredients: ["Urzică Indiană", "Garcinia Cambogia", "Picolinat de Crom", "Ashwagandha", "Ceai Verde", "Extract de Ghimbir"],
+            benefits: ["Accelerarea pierderii în greutate", "Controlul apetitului și reducerea poftelor", "Energie susținută și concentrare mentală", "Reglarea cortizolului"],
+            usage: "Consumă 3 porții zilnic, câte una la fiecare masă. Conține capsule pentru o întreagă lună.",
+            status: "available" 
+        },
+        { 
+            id: 8, 
+            name: "e-X Energizer", 
+            price: 350, 
+            type: "Cognitive Energy", 
+            img: "https://sere-nova.de/cdn/shop/files/488FA16B-9C62-4E48-8D7F-269E7B5E3383.png?v=1752705098&width=533", 
+            intro: "Energizant natural de elită pentru performanță ridicată fără prăbușiri bruște de energie.",
+            ingredients: ["Guarana", "Matcha", "Ceai Verde", "Beta-Alanină"],
+            benefits: ["Energie constantă pe parcursul zilei", "Reducerea stării de oboseală", "Focalizare precisă și concentrare îmbunătățită"],
+            usage: "Conține pliculețe pentru o întreagă lună. Ideal pentru momentele care necesită performanță maximă.",
+            status: "available" 
+        },
+        { 
+            id: 4, 
+            name: "Collagen B-yng", 
+            price: 350, 
+            type: "Cellular Beauty", 
+            img: "https://sere-nova.de/cdn/shop/files/4D173CF3-E53D-47B4-A5B9-E7436ACF1461.png?v=1752201323&width=533", 
+            intro: "Amestec corect de ingrediente premium pentru a transforma modul în care arăți și te simți.",
+            ingredients: ["Peptan Collagen", "Biotină", "Zinc", "Seleniu", "Vitamina C", "Acid Hialuronic"],
+            benefits: ["Piele mai luminoasă și reducerea ridurilor", "Păr și unghii mai puternice", "Articulații mai flexibile"],
+            usage: "Doar o măsură pe zi. O formulă practică pentru un ritual de frumusețe complet.",
+            status: "available" 
+        },
+        { 
+            id: 6, 
+            name: "e-M", 
+            price: 350, 
+            type: "Male Vitality", 
+            img: "https://sere-nova.de/cdn/shop/files/2FE46787-CC9D-44BD-B368-44ECCDE0AFD0.png?v=1752705340&width=533", 
+            intro: "Nutriție inteligentă creată special pentru nevoile bărbaților activi din Europa.",
+            ingredients: ["Beta-caroten", "Licopen", "Selenit de sodiu", "Zinc", "Resveratrol"],
+            benefits: ["Susținerea nivelului de testosteron", "Fertilitate masculină și anduranță", "Susținerea sănătății părului"],
+            usage: "Un plic pe zi. Conține vitamine esențiale și aminoacizi cheie pentru o întreagă lună.",
+            status: "available" 
+        },
+        { 
+            id: 7, 
+            name: "e-W", 
+            price: 350, 
+            type: "Hormonal Balance", 
+            img: "https://sere-nova.de/cdn/shop/files/2463C1A8-A1E8-42D5-8BAE-7560C30813C0.png?v=1752705261&width=533", 
+            intro: "Supliment zilnic multifuncțional conceput să susțină corpul feminin în mod natural.",
+            ingredients: ["Acid Folic", "Fier", "Izoflavone", "Omega-3", "Vitamina C", "Zinc"],
+            benefits: ["Echilibru hormonal natural", "Energie și vitalitate zilnică", "Protecție antioxidantă și reînnoire celulară"],
+            usage: "Un plic pe zi. Ritualul tău zilnic pentru sănătate în orice etapă a vieții.",
+            status: "available" 
+        },
+        { 
+            id: 2, 
+            name: "G-night", 
+            price: 220, 
+            type: "Circadian Recovery", 
+            img: "https://sere-nova.de/cdn/shop/files/A6F34D05-884C-4B69-B00C-6304D2783DF1.png?v=1752199040&width=533", 
+            intro: "Partenerul tău pentru un somn liniștit. Odihna profundă este o necesitate, nu un lux.",
+            ingredients: ["Rădăcină de valeriană", "Roiniță (Lemon balm)", "Magneziu", "GABA", "Floarea pasiunii", "Mușețel"],
+            benefits: ["Relaxare profundă și adormire rapidă", "Somn calitativ și regenerator", "Trezie matinală fără somnolență"],
+            usage: "1–2 capsule cu 30 de minute înainte de culcare. Natural, nu creează dependență.",
+            status: "available" 
+        },
+        { 
+            id: 3, 
+            name: "G-day", 
+            price: 220, 
+            type: "Neural Drive", 
+            img: "https://sere-nova.de/cdn/shop/files/BADA8CAD-95CC-4DA8-A51F-FE6FF1735108.png?v=1752201121&width=533", 
+            intro: "Energizează-ți mintea și corpul natural pentru o zi productivă.",
+            ingredients: ["Extract de Bacopa", "Ashwagandha", "Complex de Vitamine B (B1, B3, B6, B7)"],
+            benefits: ["Concentrare maximă și claritate mentală", "Energie de durată fără stimulenți artificiali", "Echilibru emoțional"],
+            usage: "Administrează 1 capsulă în fiecare dimineață. Conține capsule pentru o întreagă lună.",
+            status: "available" 
+        },
+        { id: 5, name: "x-Grn", price: 280, type: "Detox & Cleanse", img: "https://sere-nova.de/cdn/shop/files/97511FCF-4865-42CA-859C-B9B544D8FC9E.png?v=1752346089&width=533", status: "coming-soon" },
+        { id: 9, name: "Noni-x", price: 290, type: "Immune Support", img: "https://sere-nova.de/cdn/shop/files/7037506E-CABC-442D-A714-E0FADEDC7231.png?v=1752201491&width=533", status: "coming-soon" },
+        { id: 10, name: "Fusion-x Ciocolată", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/030EF3B7-57AC-47AF-8846-438C66D7958E.png?v=1752352746", status: "coming-soon" },
+        { id: 11, name: "Fusion-x Vanilie", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/ACDF9736-9CB0-4505-9100-8852B45ACFD8.png?v=1752353088&width=533", status: "coming-soon" }
     ];
 
     function renderShop() {
         const shop = document.getElementById('shop');
-        shop.innerHTML = products.map(p => {
+        shop.innerHTML = products.map((p, index) => {
             const isSoon = p.status === 'coming-soon';
             return `
-                <div class="product-card ${isSoon ? 'coming-soon' : ''}" onclick="${isSoon ? '' : `openDetails(${p.id})`}">
+                <div class="product-card ${isSoon ? 'coming-soon' : ''}" 
+                     onclick="${isSoon ? '' : `openDetails(${p.id})`}"
+                     style="transition-delay: ${index * 0.1}s">
                     ${isSoon ? '<div class="coming-soon-badge">În Curând</div>' : ''}
-                    <img src="${p.img}" alt="${p.name}" class="product-image">
+                    <div class="image-container">
+                        <img src="${p.img}" alt="${p.name}" class="product-image">
+                    </div>
                     <span class="type-label">${p.type}</span>
                     <h2 class="product-name">${p.name}</h2>
                     <div class="price-row">
@@ -212,6 +339,14 @@
                 </div>
             `;
         }).join('');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.product-card').forEach(card => observer.observe(card));
     }
 
     function openDetails(id) {
@@ -224,8 +359,25 @@
             <div>
                 <span class="type-label" style="color:var(--sage)">${p.type}</span>
                 <h2 style="font-family:'Tenor Sans'; font-size:32px; margin:20px 0;">${p.name}</h2>
-                <p style="line-height:1.8; color:#555; margin-bottom:30px;">${p.desc}</p>
-                <p style="font-family:'Cormorant Garamond'; font-size:24px;">Preț Catalog: ${p.price} LEI</p>
+                <p class="desc-text">${p.intro}</p>
+                
+                <div class="desc-section">
+                    <h4>Ingrediente Cheie</h4>
+                    <ul>${p.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                </div>
+
+                <div class="desc-section">
+                    <h4>Beneficii</h4>
+                    <ul>${p.benefits.map(b => `<li>${b}</li>`).join('')}</ul>
+                </div>
+
+                <div class="desc-section">
+                    <h4>Mod de utilizare</h4>
+                    <p class="desc-text" style="font-size:13px;">${p.usage}</p>
+                </div>
+
+                <p style="font-family:'Cormorant Garamond'; font-size:24px; margin-top:20px;">Preț: ${p.price} LEI</p>
+                <button class="btn-details" style="margin-top:30px; width:100%" onclick="closeModal()">Înapoi la catalog</button>
             </div>
         `;
         modal.classList.add('active');
