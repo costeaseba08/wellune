@@ -1,683 +1,221 @@
 <!DOCTYPE html>
-
 <html lang="ro">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Wellune | Official Store</title>
-
+    <title>Wellune | Catalog Oficial</title>
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
-
     <style>
-
         :root {
-
             --bg: #FDFBF7;
-
             --text: #1C1C1C;
-
             --sage: #8DAA91;
-
             --gold: #C5A059;
-
             --white: #FFFFFF;
-
-            --overlay: rgba(28, 28, 28, 0.05);
-
         }
-
-
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-
         body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-
-
         /* Navigation */
-
         nav {
-
             height: 100px;
-
             display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            padding: 0 5%;
-
-            position: fixed;
-
-            width: 100%;
-
-            top: 0;
-
-            z-index: 1000;
-
-            background: rgba(253, 251, 247, 0.95);
-
-            backdrop-filter: blur(5px);
-
-            border-bottom: 1px solid rgba(0,0,0,0.03);
-
-        }
-
-
-
-        .logo { font-family: 'Tenor Sans', sans-serif; font-size: 24px; letter-spacing: 7px; text-transform: uppercase; cursor: pointer; }
-
-        .cart-trigger { 
-
-            cursor: pointer; 
-
-            font-size: 11px; 
-
-            letter-spacing: 2px; 
-
-            text-transform: uppercase; 
-
-            display: flex; 
-
-            align-items: center;
-
-            font-weight: 500;
-
-        }
-
-        .cart-count-badge {
-
-            background: var(--text);
-
-            color: white;
-
-            width: 20px;
-
-            height: 20px;
-
-            display: flex;
-
-            align-items: center;
-
             justify-content: center;
-
-            border-radius: 50%;
-
-            font-size: 9px;
-
-            margin-left: 8px;
-
+            align-items: center;
+            padding: 0 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(253, 251, 247, 0.95);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
-
+        .logo { font-family: 'Tenor Sans', sans-serif; font-size: 24px; letter-spacing: 7px; text-transform: uppercase; }
 
         /* Hero */
-
         header {
-
-            height: 80vh;
-
+            height: 50vh;
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
             text-align: center;
-
             padding-top: 100px;
-
         }
-
-
 
         header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 8vw, 5rem); font-weight: 300; line-height: 1.1; }
-
         header h1 i { font-style: italic; color: var(--sage); }
-
         header p { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; margin-top: 20px; color: #999; }
 
-
-
-        /* Shop Grid */
-
-        .shop-container { padding: 50px 5% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 40px; }
-
+        /* Catalog Grid */
+        .shop-container { padding: 50px 5% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         
-
         .product-card {
-
             background: var(--white);
-
-            padding: 60px 40px;
-
+            padding: 30px;
             display: flex;
-
             flex-direction: column;
-
             transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-
             border: 1px solid transparent;
-
             position: relative;
-
-        }
-
-        .product-card:hover { transform: translateY(-10px); border-color: var(--sage); box-shadow: 0 30px 60px rgba(0,0,0,0.02); }
-
-
-
-        .type-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
-
-        .product-name { font-family: 'Tenor Sans', sans-serif; font-size: 26px; margin-bottom: 20px; }
-
-        .product-info { font-size: 13px; line-height: 1.8; color: #555; margin-bottom: 30px; font-weight: 300; }
-
-        .ingredients-list { font-size: 11px; font-style: italic; color: var(--sage); margin-bottom: 30px; border-top: 1px solid #f0f0f0; padding-top: 20px; }
-
-        
-
-        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-
-        .price { font-family: 'Cormorant Garamond', serif; font-size: 24px; }
-
-        
-
-        .btn-add {
-
-            padding: 12px 25px;
-
-            background: none;
-
-            border: 1px solid var(--text);
-
-            font-family: 'Montserrat';
-
-            font-size: 10px;
-
-            letter-spacing: 2px;
-
-            text-transform: uppercase;
-
             cursor: pointer;
+        }
+        .product-card:hover:not(.coming-soon) { transform: translateY(-10px); border-color: var(--sage); box-shadow: 0 30px 60px rgba(0,0,0,0.02); }
 
+        .product-image {
+            width: 100%;
+            height: 320px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            mix-blend-mode: multiply;
+        }
+
+        /* Coming Soon Styling */
+        .product-card.coming-soon { cursor: default; }
+        .product-card.coming-soon .product-image { opacity: 0.4; filter: grayscale(1); }
+        .coming-soon-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid var(--text);
+            z-index: 10;
+        }
+
+        .type-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 15px; }
+        .product-name { font-family: 'Tenor Sans', sans-serif; font-size: 22px; margin-bottom: 15px; }
+        
+        .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid #f0f0f0; padding-top: 20px;}
+        .price { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #777; }
+        
+        .btn-details {
+            padding: 12px 24px;
+            background: var(--text);
+            color: white;
+            border: none;
+            font-family: 'Montserrat';
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
             transition: 0.3s;
-
         }
+        .btn-details:hover { background: var(--sage); }
+        .btn-disabled { background: #eee; color: #aaa; cursor: default; }
 
-        .btn-add:hover { background: var(--text); color: white; }
-
-
-
-        /* Cart Panel Overlay */
-
-        .cart-overlay {
-
+        /* Modal Detalii */
+        .modal {
             position: fixed;
-
-            top: 0; right: -100%;
-
-            width: 100%; max-width: 500px;
-
-            height: 100vh;
-
-            background: var(--white);
-
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.98);
             z-index: 2000;
-
-            box-shadow: -20px 0 60px rgba(0,0,0,0.05);
-
-            transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1);
-
-            display: flex;
-
-            flex-direction: column;
-
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 5%;
         }
-
-        .cart-overlay.active { right: 0; }
-
-        
-
-        .cart-header { padding: 40px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
-
-        .cart-header h2 { font-family: 'Tenor Sans', sans-serif; text-transform: uppercase; font-size: 18px; letter-spacing: 3px; }
-
-        
-
-        .cart-items-list { flex-grow: 1; overflow-y: auto; padding: 40px; }
-
-        .cart-item { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid #fafafa; padding-bottom: 20px; }
-
-        .item-details h4 { font-family: 'Cormorant Garamond', serif; font-size: 20px; margin-bottom: 5px; }
-
-        .item-qty-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-
-        .qty-btn { width: 25px; height: 25px; border: 1px solid #ddd; background: none; cursor: pointer; }
-
-
-
-        .cart-footer { padding: 40px; background: #fafafa; }
-
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-
-        .checkout-btn { width: 100%; padding: 20px; background: var(--text); color: white; border: none; text-transform: uppercase; letter-spacing: 3px; margin-top: 20px; cursor: pointer; font-size: 12px; }
-
-
-
-        /* Form styling */
-
-        .order-form { display: grid; gap: 10px; margin-top: 20px; }
-
-        .order-form input { padding: 12px; border: 1px solid #eee; font-family: 'Montserrat'; font-size: 12px; }
-
-        .order-form select { padding: 12px; border: 1px solid #eee; background: white; }
-
-
+        .modal.active { display: flex; }
+        .modal-content {
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .modal-close { position: absolute; top: 40px; right: 40px; cursor: pointer; letter-spacing: 2px; font-size: 12px; border-bottom: 1px solid var(--text); }
 
         @media (max-width: 768px) {
-
             .shop-container { grid-template-columns: 1fr; }
-
-            .cart-overlay { width: 100%; }
-
+            .modal-content { grid-template-columns: 1fr; text-align: center; }
+            .modal-content img { height: 250px; }
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
 <nav>
-
     <div class="logo">wellune</div>
-
-    <div class="cart-trigger" onclick="toggleCart()">
-
-        Cart <span class="cart-count-badge" id="cart-badge">0</span>
-
-    </div>
-
 </nav>
 
-
-
 <header>
-
     <p>The Art of Inner Balance</p>
-
-    <h1>Pure ingredients. <br><i>Uncompromised life.</i></h1>
-
+    <h1>Catalog Produse. <br><i>Colecția Premium.</i></h1>
 </header>
 
-
-
-<div class="shop-container" id="shop">
-
-    <div class="product-card">
-
-        <span class="type-label">Weight Sculpting</span>
-
-        <h2 class="product-name">B-x Formula</h2>
-
-        <p class="product-info">O formulă termogenică avansată creată pentru a transforma metabolismul. Reglează cortizolul și controlează pofta de dulce, oferind energie constantă pe parcursul întregii zile.</p>
-
-        <p class="ingredients-list">Garcinia Cambogia, Ashwagandha, Ceai Verde, Crom, Ghimbir.</p>
-
-        <div class="price-row">
-
-            <span class="price">350 LEI</span>
-
-            <button class="btn-add" onclick="addItem('B-x Formula', 350)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="product-card">
-
-        <span class="type-label">Cognitive Energy</span>
-
-        <h2 class="product-name">E-X Energizer</h2>
-
-        <p class="product-info">Energia curată de care ai nevoie pentru performanță supremă. Fără tremur sau scăderi bruște de energie, doar focus laser și claritate mentală de neegalat.</p>
-
-        <p class="ingredients-list">Guarana, Matcha Premium, Beta-Alanină, Extract de Ceai Verde.</p>
-
-        <div class="price-row">
-
-            <span class="price">350 LEI</span>
-
-            <button class="btn-add" onclick="addItem('E-X Energizer', 350)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="product-card">
-
-        <span class="type-label">Cellular Beauty</span>
-
-        <h2 class="product-name">B-yng Collagen</h2>
-
-        <p class="product-info">Mai mult decât un supliment, este ritualul tău de strălucire. Reface elasticitatea pielii, întărește structura firului de păr și susține flexibilitatea articulațiilor.</p>
-
-        <p class="ingredients-list">Peptan® Collagen, Acid Hialuronic, Biotină, Zinc, Seleniu.</p>
-
-        <div class="price-row">
-
-            <span class="price">350 LEI</span>
-
-            <button class="btn-add" onclick="addItem('B-yng Collagen', 350)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="product-card">
-
-        <span class="type-label">Hormonal Balance</span>
-
-        <h2 class="product-name">E-W Wellness</h2>
-
-        <p class="product-info">Creat special pentru biomecanica feminină. Susține echilibrul hormonal natural, vitalitatea și regenerarea celulară în fiecare etapă a vieții tale.</p>
-
-        <p class="ingredients-list">Acid Folic, Omega-3, Izoflavone, Fier, Zinc, Vitamina C.</p>
-
-        <div class="price-row">
-
-            <span class="price">350 LEI</span>
-
-            <button class="btn-add" onclick="addItem('E-W Wellness', 350)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="product-card">
-
-        <span class="type-label">Circadian Recovery</span>
-
-        <h2 class="product-name">G-night</h2>
-
-        <p class="product-info">Arta odihnei profunde. O sinergie botanică ce induce o stare de calm absolut, permițând corpului să se regenereze complet pe durata somnului.</p>
-
-        <p class="ingredients-list">Valeriană, Floarea Pasiunii, GABA, Magneziu, Roiniță.</p>
-
-        <div class="price-row">
-
-            <span class="price">220 LEI</span>
-
-            <button class="btn-add" onclick="addItem('G-night', 220)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="product-card">
-
-        <span class="type-label">Neural Drive</span>
-
-        <h2 class="product-name">G-day Focus</h2>
-
-        <p class="product-info">Energizează-ți mintea natural. Alimentează capacitatea de concentrare și memoria, oferind un scut împotriva stresului emoțional zilnic.</p>
-
-        <p class="ingredients-list">Bacopa Monnieri, Ashwagandha, Complex de Vitamine B.</p>
-
-        <div class="price-row">
-
-            <span class="price">220 LEI</span>
-
-            <button class="btn-add" onclick="addItem('G-day Focus', 220)">Add to Cart</button>
-
-        </div>
-
-    </div>
-
+<div class="shop-container" id="shop"></div>
+
+<div class="modal" id="product-modal">
+    <span class="modal-close" onclick="closeModal()">ÎNCHIDE</span>
+    <div class="modal-content" id="modal-body"></div>
 </div>
-
-
-
-<div class="cart-overlay" id="cart-panel">
-
-    <div class="cart-header">
-
-        <h2>Your Bag</h2>
-
-        <span style="cursor:pointer" onclick="toggleCart()">CLOSE</span>
-
-    </div>
-
-    
-
-    <div class="cart-items-list" id="cart-content">
-
-        </div>
-
-
-
-    <div class="cart-footer">
-
-        <div class="summary-row">
-
-            <span>Subtotal</span>
-
-            <span id="subtotal">0 LEI</span>
-
-        </div>
-
-        
-
-        <div class="order-form">
-
-            <input type="text" id="cust-name" placeholder="Nume Complet">
-
-            <input type="text" id="cust-phone" placeholder="Telefon">
-
-            <select id="shipping-method" onchange="calcTotal()">
-
-                <option value="0">Ridicare Personală - 0 LEI</option>
-
-                <option value="30">Livrare Curier - 30 LEI</option>
-
-            </select>
-
-        </div>
-
-
-
-        <div class="summary-row" style="margin-top:20px; border-top: 1px solid #ddd; padding-top:20px; font-weight: 500;">
-
-            <span>TOTAL</span>
-
-            <span id="grand-total">0 LEI</span>
-
-        </div>
-
-        
-
-        <button class="checkout-btn" onclick="checkout()">Complete Order</button>
-
-    </div>
-
-</div>
-
-
 
 <script>
+    const products = [
+        { id: 1, name: "B-x", price: 350, type: "Weight Sculpting", img: "https://sere-nova.de/cdn/shop/files/16C98EAF-9A9A-4CF6-B200-E289BA9E8FC3.png?v=1754835290&width=533", desc: "O formulă termogenică avansată creată pentru a transforma metabolismul. Reglează cortizolul și controlează pofta de dulce, oferind energie constantă pe parcursul întregii zile.", status: "available" },
+        { id: 2, name: "G-night", price: 220, type: "Circadian Recovery", img: "https://sere-nova.de/cdn/shop/files/A6F34D05-884C-4B69-B00C-6304D2783DF1.png?v=1752199040&width=533", desc: "Arta odihnei profunde. O sinergie botanică ce induce o stare de calm absolut, permițând corpului să se regenereze complet pe durata somnului.", status: "available" },
+        { id: 3, name: "G-day", price: 220, type: "Neural Drive", img: "https://sere-nova.de/cdn/shop/files/BADA8CAD-95CC-4DA8-A51F-FE6FF1735108.png?v=1752201121&width=533", desc: "Energizează-ți mintea natural. Alimentează capacitatea de concentrare și memoria, oferind un scut împotriva stresului emoțional zilnic.", status: "available" },
+        { id: 4, name: "B-yng Collagen", price: 350, type: "Cellular Beauty", img: "https://sere-nova.de/cdn/shop/files/4D173CF3-E53D-47B4-A5B9-E7436ACF1461.png?v=1752201323&width=533", desc: "Mai mult decât un supliment, este ritualul tău de strălucire. Reface elasticitatea pielii și întărește structura firului de păr.", status: "available" },
+        { id: 5, name: "x-Grn", price: 280, type: "Detox & Cleanse", img: "https://sere-nova.de/cdn/shop/files/97511FCF-4865-42CA-859C-B9B544D8FC9E.png?v=1752346089&width=533", desc: "Concentrat de super-alimente verzi pentru o detoxifiere profundă.", status: "coming-soon" },
+        { id: 6, name: "e-M", price: 310, type: "Male Vitality", img: "https://sere-nova.de/cdn/shop/files/2FE46787-CC9D-44BD-B368-44ECCDE0AFD0.png?v=1752705340&width=533", desc: "Susținere vitală pentru performanță masculină.", status: "available" },
+        { id: 7, name: "e-W", price: 310, type: "Hormonal Balance", img: "https://sere-nova.de/cdn/shop/files/2463C1A8-A1E8-42D5-8BAE-7560C30813C0.png?v=1752705261&width=533", desc: "Creat special pentru biomecanica feminină.", status: "available" },
+        { id: 8, name: "e-X Energizer", price: 350, type: "Cognitive Energy", img: "https://sere-nova.de/cdn/shop/files/488FA16B-9C62-4E48-8D7F-269E7B5E3383.png?v=1752705098&width=533", desc: "Focus laser și claritate mentală de neegalat.", status: "available" },
+        { id: 9, name: "Noni-x", price: 290, type: "Immune Support", img: "https://sere-nova.de/cdn/shop/files/7037506E-CABC-442D-A714-E0FADEDC7231.png?v=1752201491&width=533", desc: "Puterea antioxidantă a fructului Noni.", status: "coming-soon" },
+        { id: 10, name: "Fusion-x Ciocolată", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/030EF3B7-57AC-47AF-8846-438C66D7958E.png?v=1752352746", desc: "Nutriție completă cu gust de ciocolată.", status: "coming-soon" },
+        { id: 11, name: "Fusion-x Vanilie", price: 380, type: "Protein Meal", img: "https://sere-nova.de/cdn/shop/files/ACDF9736-9CB0-4505-9100-8852B45ACFD8.png?v=1752353088&width=533", desc: "Eleganța vaniliei întâlnește nutriția.", status: "coming-soon" }
+    ];
 
-    let cart = [];
-
-
-
-    function toggleCart() {
-
-        document.getElementById('cart-panel').classList.toggle('active');
-
-        renderCart();
-
-    }
-
-
-
-    function addItem(name, price) {
-
-        let exists = cart.find(i => i.name === name);
-
-        if(exists) {
-
-            exists.qty++;
-
-        } else {
-
-            cart.push({name, price, qty: 1});
-
-        }
-
-        updateBadge();
-
-        toggleCart();
-
-    }
-
-
-
-    function changeQty(index, delta) {
-
-        cart[index].qty += delta;
-
-        if(cart[index].qty < 1) cart.splice(index, 1);
-
-        renderCart();
-
-        updateBadge();
-
-    }
-
-
-
-    function updateBadge() {
-
-        let totalQty = cart.reduce((s, i) => s + i.qty, 0);
-
-        document.getElementById('cart-badge').innerText = totalQty;
-
-    }
-
-
-
-    function renderCart() {
-
-        const container = document.getElementById('cart-content');
-
-        if(cart.length === 0) {
-
-            container.innerHTML = '<p style="text-align:center; color:#999; margin-top:50px;">Your bag is empty.</p>';
-
-            calcTotal();
-
-            return;
-
-        }
-
-
-
-        container.innerHTML = cart.map((item, index) => `
-
-            <div class="cart-item">
-
-                <div class="item-details">
-
-                    <h4>${item.name}</h4>
-
-                    <p style="font-size:12px; color:#888;">${item.price} LEI / unit</p>
-
-                    <div class="item-qty-ctrl">
-
-                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
-
-                        <span style="font-size:13px">${item.qty}</span>
-
-                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-
+    function renderShop() {
+        const shop = document.getElementById('shop');
+        shop.innerHTML = products.map(p => {
+            const isSoon = p.status === 'coming-soon';
+            return `
+                <div class="product-card ${isSoon ? 'coming-soon' : ''}" onclick="${isSoon ? '' : `openDetails(${p.id})`}">
+                    ${isSoon ? '<div class="coming-soon-badge">În Curând</div>' : ''}
+                    <img src="${p.img}" alt="${p.name}" class="product-image">
+                    <span class="type-label">${p.type}</span>
+                    <h2 class="product-name">${p.name}</h2>
+                    <div class="price-row">
+                        <span class="price">${isSoon ? 'TBA' : p.price + ' LEI'}</span>
+                        <button class="btn-details ${isSoon ? 'btn-disabled' : ''}">${isSoon ? 'Indisponibil' : 'Afla detalii'}</button>
                     </div>
-
                 </div>
+            `;
+        }).join('');
+    }
 
-                <div style="text-align:right; font-family:'Cormorant Garamond'; font-size:18px;">
+    function openDetails(id) {
+        const p = products.find(item => item.id === id);
+        const modal = document.getElementById('product-modal');
+        const body = document.getElementById('modal-body');
 
-                    ${item.price * item.qty} LEI
-
-                </div>
-
+        body.innerHTML = `
+            <img src="${p.img}" style="width:100%; mix-blend-mode: multiply;">
+            <div>
+                <span class="type-label" style="color:var(--sage)">${p.type}</span>
+                <h2 style="font-family:'Tenor Sans'; font-size:32px; margin:20px 0;">${p.name}</h2>
+                <p style="line-height:1.8; color:#555; margin-bottom:30px;">${p.desc}</p>
+                <p style="font-family:'Cormorant Garamond'; font-size:24px;">Preț Catalog: ${p.price} LEI</p>
             </div>
-
-        `).join('');
-
-        calcTotal();
-
+        `;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 
-
-
-    function calcTotal() {
-
-        let sub = cart.reduce((s, i) => s + (i.price * i.qty), 0);
-
-        let ship = parseInt(document.getElementById('shipping-method').value);
-
-        document.getElementById('subtotal').innerText = sub + " LEI";
-
-        document.getElementById('grand-total').innerText = (sub + ship) + " LEI";
-
+    function closeModal() {
+        document.getElementById('product-modal').classList.remove('active');
+        document.body.style.overflow = 'auto';
     }
 
-
-
-    function checkout() {
-
-        if(cart.length === 0) return alert("Coșul este gol.");
-
-        let name = document.getElementById('cust-name').value;
-
-        if(!name) return alert("Te rugăm să introduci numele pentru livrare.");
-
-        
-
-        alert("Comanda pentru " + name + " a fost trimisă cu succes! (Simulare)");
-
-        cart = [];
-
-        updateBadge();
-
-        toggleCart();
-
-    }
-
+    renderShop();
 </script>
 
-
-
 </body>
-
 </html>
