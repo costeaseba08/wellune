@@ -51,7 +51,7 @@
         header p { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; margin-top: 20px; color: #999; }
 
         /* Catalog Grid */
-        .shop-container { padding: 50px 5% 100px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
+        .shop-container { padding: 50px 5% 50px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; }
         
         .product-card {
             background: var(--white);
@@ -111,6 +111,19 @@
         .btn-details:hover { background: var(--sage); }
         .btn-disabled { background: #eee; color: #aaa; cursor: default; }
 
+        /* Contact Section */
+        footer {
+            padding: 100px 5%;
+            background: var(--white);
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.03);
+        }
+        .contact-title { font-family: 'Tenor Sans', sans-serif; letter-spacing: 5px; text-transform: uppercase; font-size: 18px; margin-bottom: 40px; color: var(--gold); }
+        .contact-links { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .contact-item { text-decoration: none; color: var(--text); font-size: 14px; letter-spacing: 1px; transition: color 0.3s; }
+        .contact-item:hover { color: var(--sage); }
+        .contact-item b { font-family: 'Tenor Sans'; font-weight: 400; text-transform: uppercase; margin-right: 10px; color: #999; font-size: 11px; }
+
         /* Modal Detalii */
         .modal {
             position: fixed;
@@ -151,6 +164,16 @@
 </header>
 
 <div class="shop-container" id="shop"></div>
+
+<footer>
+    <div class="contact-title">Contact Us</div>
+    <div class="contact-links">
+        <a href="https://instagram.com/wellune.ro" class="contact-item" target="_blank"><b>Instagram</b> @wellune.ro</a>
+        <a href="https://tiktok.com/@wellune" class="contact-item" target="_blank"><b>TikTok</b> @wellune</a>
+        <a href="mailto:wellune.ro@gmail.com" class="contact-item"><b>Email</b> wellune.ro@gmail.com</a>
+    </div>
+    <p style="margin-top: 60px; font-size: 9px; letter-spacing: 3px; color: #ccc; text-transform: uppercase;">&copy; 2026 Wellune. All rights reserved.</p>
+</footer>
 
 <div class="modal" id="product-modal">
     <span class="modal-close" onclick="closeModal()">ÎNCHIDE</span>
